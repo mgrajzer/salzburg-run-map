@@ -1,24 +1,105 @@
-h1{
-    position: fixed;
-    color: black;
-    background-color: rgba(159,159,159,0.7);
-    margin-left: 70%;
-    margin-top: 0%;
-    z-index: 2;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-	width: 100%;
-	height: 100%;
-	margin: 5px;
-	font-family: "Helvetica Neue", Arial, Helveticam sans-serif;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+header {
+  width: 100%;
+  height: 50px;
+  background-color: #1F1F1F;
+  color: #FF005A;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+header .title {
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+header .icons {
+  display: flex;
+  gap: 10px;
+}
+
+header .icons a {
+  color: #FF005A;
+  font-size: 20px;
+  text-decoration: none;
 }
 
 #map {
-	height:98%;
-	width:98vw;
-	left:1%;
-	overflow:hidden;
-	position:fixed;
-	border:1px #444 solid;
+  position: absolute;
+  top: 50px;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 35px;
+  width: 100%;
+  background-color: #1F1F1F	;
+  color: #FF005A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 45px;
+    padding: 0 10px;
+  }
+
+  header .title {
+    font-size: 16px;
+  }
+
+  header .icons a {
+    font-size: 16px;
+  }
+
+  footer {
+    height: 28px;
+    font-size: 12px;
+  }
+
+  #map {
+    top: 45px;
+    bottom: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  header .title {
+    font-size: 14px;
+  }
+
+  header .icons a {
+    font-size: 14px;
+  }
+
+  footer {
+    font-size: 11px;
+  }
 }
