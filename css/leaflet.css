@@ -327,18 +327,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-bottom-right-radius: 2px;
 	}
 
-/* zoom control */
-
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-	font: bold 18px 'Lucida Console', Monaco, monospace;
-	text-indent: 1px;
-	}
-
-.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
-	font-size: 22px;
-	}
-
+/* Zoom */
+.leaflet-bar a.leaflet-control-zoom-in,
+.leaflet-bar a.leaflet-control-zoom-out {
+    background-color: #1F1F1F;
+    color: #FF005A;
+    border: none;
+    box-shadow: none;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    font: bold 18px 'Lucida Console', Monaco, monospace;
+    text-indent: 1px;
+}
 
 /* layers control */
 
@@ -638,3 +641,35 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	margin-left: -12px;
 	border-right-color: #fff;
 	}
+
+/* Hover – jaśniejsze tło, ikony niebieskie z Twojej palety */
+.leaflet-bar a.leaflet-control-zoom-in:hover,
+.leaflet-bar a.leaflet-control-zoom-out:hover {
+    background-color: #2B2B2B;
+    color: #FF005A;
+}
+
+/* Nowy stan "active"/pressed – odciśnięty efekt */
+.leaflet-bar a.leaflet-control-zoom-in:active,
+.leaflet-bar a.leaflet-control-zoom-out:active {
+    background-color: #333333;
+    color: #FF005A;
+}
+
+/* Dostosowanie dla urządzeń dotykowych */
+.leaflet-touch .leaflet-bar a.leaflet-control-zoom-in,
+.leaflet-touch .leaflet-bar a.leaflet-control-zoom-out {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 22px;
+}
+
+/* Usunięcie wszystkich ramek i cieni domyślnych Leaflet */
+.leaflet-bar a,
+.leaflet-bar a:hover,
+.leaflet-bar a:active {
+    border: none;
+    box-shadow: none;
+    outline: none !important;
+}
