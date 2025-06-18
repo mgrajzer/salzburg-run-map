@@ -12,83 +12,41 @@ var map = L.map('map', {
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
 
-const geojsonData = {
-  "type": "FeatureCollection",
-  "name": "line",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+fetch('data/run.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  },
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [13.044481420969317, 47.800544240214286],
-          [13.042051842638635, 47.8009685052496],
-          [13.041944180378783, 47.801038412224074],
-          [13.042087730058586, 47.801453030966712],
-          [13.042087730058586, 47.801450620402193],
-          [13.042292288352311, 47.801973710281963],
-          [13.042514790356003, 47.802200300576473],
-          [13.044797230264885, 47.801313218039574],
-          [13.046023682841724, 47.800945604668541],
-          [13.048909031405815, 47.800791326806774],
-          [13.049511940060995, 47.800627406076629],
-          [13.04878701417798, 47.799330485595448],
-          [13.046856270984597, 47.800034394409302],
-          [13.045255692054765, 47.800449021164958],
-          [13.044481420969312, 47.800545445517614],
-          [13.044481420969312, 47.800545445517614],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293]
-        ]
+    return response.json();
+  })
+  .then(data => {
+    L.geoJSON(data, {
+      style: {
+        color: '#FF005A',
+        weight: 4
+      },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.name) {
+          layer.bindPopup(feature.properties.name);
+        }
       }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [13.044481420969317, 47.800544240214286],
-          [13.042051842638635, 47.8009685052496],
-          [13.041944180378783, 47.801038412224074],
-          [13.042087730058586, 47.801453030966712],
-          [13.042087730058586, 47.801450620402193],
-          [13.042292288352311, 47.801973710281963],
-          [13.042514790356003, 47.802200300576473],
-          [13.044797230264885, 47.801313218039574],
-          [13.046023682841724, 47.800945604668541],
-          [13.048909031405815, 47.800791326806774],
-          [13.049511940060995, 47.800627406076629],
-          [13.04878701417798, 47.799330485595448],
-          [13.046856270984597, 47.800034394409302],
-          [13.045255692054765, 47.800449021164958],
-          [13.044481420969312, 47.800545445517614],
-          [13.044481420969312, 47.800545445517614],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293],
-          [13.044478729412818, 47.800544240214293]
-        ]
-      }
-    }
-  ]
-};
+    }).addTo(map);
+  })
+  .catch(error => {
+    console.error('Error loading run.json:', error);
+  });
 
-// Dodanie obiektu GeoJSON do mapy
-L.geoJSON(geojsonData, {
-  style: {
-    color: 'blue',
-    weight: 4
-  }
-}).addTo(map);
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("welcome-modal");
+  const btn = document.getElementById("close-modal");
+
+  btn.addEventListener("click", () => {
+    const content = modal.querySelector(".modal-content");
+    content.classList.add("slide-out");
+
+    // Poczekaj na koniec animacji, potem ukryj cały modal
+    content.addEventListener("animationend", () => {
+      modal.style.display = "none";
+    }, { once: true });
+  });
+});
