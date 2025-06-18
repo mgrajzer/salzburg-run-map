@@ -14,6 +14,30 @@ var map = L.map('map', {
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
 
+fetch('data/run.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    L.geoJSON(data, {
+      style: {
+        color: '#FF005A',
+        weight: 4
+      },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.name) {
+          layer.bindPopup(feature.properties.name);
+        }
+      }
+    }).addTo(map);
+  })
+  .catch(error => {
+    console.error('Error loading run.json:', error);
+  });
+  
 fetch('data/points.json')
   .then(response => response.json())
   .then(data => {
@@ -65,6 +89,7 @@ fetch('data/points.json')
   .catch(error => {
     console.error('Error loading points.json:', error);
   });
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("welcome-modal");
