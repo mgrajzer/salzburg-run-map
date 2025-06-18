@@ -1,13 +1,15 @@
-var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-	subdomains: 'abcd',
-	maxZoom: 20
+var Jawg_Dark = L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=DVgdgfOJEczJSzOxV0oBnkANkVhYDyXacvcEqQMGhe6dMZh30EroBJgdHqEesjTM', {
+	attribution: '<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	minZoom: 0,
+	maxZoom: 22,
+	tileSize: 256,
+	accessToken: 'DVgdgfOJEczJSzOxV0oBnkANkVhYDyXacvcEqQMGhe6dMZh30EroBJgdHqEesjTM'
 });
 
 var map = L.map('map', {
 	center: [47.8, 13.045],
 	zoom: 15,
-	layers: [CartoDB_DarkMatter]
+	layers: [Jawg_Dark]
 });
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);

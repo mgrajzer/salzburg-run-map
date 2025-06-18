@@ -45,6 +45,7 @@ header .icons a {
 
 #map {
   position: absolute;
+  background-color: #1f1f1f;
   top: 50px;
   bottom: 30px;
   left: 0;
