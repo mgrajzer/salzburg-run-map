@@ -14,28 +14,56 @@ var map = L.map('map', {
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
 
-fetch('data/run.json')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  })
+fetch('data/points.json')
+  .then(response => response.json())
   .then(data => {
+
+    // Różne ikony dla różnych typów
+    const icons = {
+      1: L.icon({
+        iconUrl: 'css/images/icon-mcdonald.svg',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -30]
+      }),
+      2: L.icon({
+        iconUrl: 'css/images/icon-wc.svg',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -30]
+      }),
+      default: L.icon({
+        iconUrl: 'css/images/icon-default.svg',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -30]
+      })
+    };
+
     L.geoJSON(data, {
-      style: {
-        color: '#FF005A',
-        weight: 4
+      pointToLayer: function (feature, latlng) {
+        const type = feature.properties["Note Type"];
+        const icon = icons[type] || icons.default;
+        return L.marker(latlng, { icon: icon });
       },
       onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties.name) {
-          layer.bindPopup(feature.properties.name);
-        }
+        const props = feature.properties;
+
+        const title = `<div class="popup-title">${props.Name}</div>`;
+        const hours = props["Opening Hours"]
+          ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props["Opening Hours"]}</div>`
+          : '';
+        const notes = props.Notes
+          ? `<div class="popup-notes">${props.Notes}</div>`
+          : '';
+
+        const popupContent = `<div class="custom-popup">${title}${hours}${notes}</div>`;
+        layer.bindPopup(popupContent, { className: 'leaflet-popup-custom' });
       }
     }).addTo(map);
   })
   .catch(error => {
-    console.error('Error loading run.json:', error);
+    console.error('Error loading points.json:', error);
   });
 
 document.addEventListener("DOMContentLoaded", () => {
