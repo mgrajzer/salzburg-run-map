@@ -1,4 +1,4 @@
-var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 	subdomains: 'abcd',
 	maxZoom: 20
@@ -7,7 +7,7 @@ var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles
 var map = L.map('map', {
 	center: [47.8, 13.045],
 	zoom: 15,
-	layers: [CartoDB_Voyager]
+	layers: [CartoDB_DarkMatter]
 });
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
