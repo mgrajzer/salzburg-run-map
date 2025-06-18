@@ -188,3 +188,72 @@ footer {
 .modal-content.slide-out {
   animation: slideOutRight 0.5s ease forwards;
 }
+
+.reset-view-btn {
+  background-color: #1F1F1F;
+  color: #FF005A;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  border-top: 1px solid #FF005A;
+}
+
+.distance-label div {
+  background-color: #1f1f1f;
+  color: #FF005A;
+  padding: 0px 30px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid #FF005A;
+  box-shadow: 0 0 6px rgba(255, 0, 90, 0.3);
+  justify-content: center;
+}
+
+.measure-btn {
+  background-color: #1F1F1F;
+  color: #FF005A;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  border-top: 1px solid #FF005A;
+}
+
+.clear-measure-btn {
+  background-color: #1F1F1F;
+  color: #FF005A;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+  border-top: 1px solid #FF005A;
+}
+
+.clear-measure-btn:hover {
+  background-color: #2B2B2B;
+}
+
+
+.measure-btn:hover {
+  background-color: #2B2B2B;
+}
+
+
+.reset-view-btn:hover {
+  background-color: #2B2B2B;
+}
+}
+
+#reset-view-btn:hover {
+  background-color: #2a2a2a;
+}

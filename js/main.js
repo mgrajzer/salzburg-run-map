@@ -105,3 +105,147 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { once: true });
   });
 });
+
+const ResetViewControl = L.Control.extend({
+  onAdd: function (map) {
+    const btn = L.DomUtil.create('div', 'leaflet-bar reset-view-btn');
+    btn.innerHTML = '<i class="fa-solid fa-house"></i>';
+    btn.title = "Reset view";
+
+    L.DomEvent.on(btn, 'click', function (e) {
+      L.DomEvent.stopPropagation(e);
+      L.DomEvent.preventDefault(e);
+      map.setView([47.8, 13.045], 15);
+    });
+
+    return btn;
+  },
+  onRemove: function () {}
+});
+
+map.addControl(new ResetViewControl({ position: 'topleft' }));
+
+let isMeasuring = false;
+let measurePoints = [];
+let measureLine = null;
+let distanceLabel = null;
+let totalDistance = 0;
+
+function formatDistance(meters) {
+  return meters > 1000
+    ? (meters / 1000).toFixed(2) + ' km'
+    : Math.round(meters) + ' m';
+}
+
+// START pomiaru
+let clearControl = null;
+
+function enableMeasuring() {
+  isMeasuring = true;
+  measurePoints = [];
+  totalDistance = 0;
+
+  // Aktywuj eventy
+  map.on('click', onMeasureClick);
+  map.on('dblclick', finishMeasuring);
+
+  // Dodaj kosz (jeśli jeszcze nie istnieje)
+  if (!clearControl) {
+    clearControl = new ClearMeasureControl({ position: 'topleft' });
+    map.addControl(clearControl);
+  }
+}
+
+// Obsługa pojedynczego kliknięcia
+function onMeasureClick(e) {
+  measurePoints.push(e.latlng);
+
+  if (measurePoints.length > 1) {
+    const last = measurePoints[measurePoints.length - 2];
+    const current = e.latlng;
+    const segment = map.distance(last, current);
+    totalDistance += segment;
+  }
+
+  if (measureLine) map.removeLayer(measureLine);
+  measureLine = L.polyline(measurePoints, {
+    color: '#FF005A',
+    weight: 3,
+    dashArray: '4 6'
+  }).addTo(map);
+
+  if (distanceLabel) map.removeLayer(distanceLabel);
+  distanceLabel = L.marker(e.latlng, {
+    icon: L.divIcon({
+      className: 'distance-label',
+      html: `<div>${formatDistance(totalDistance)}</div>`,
+      iconAnchor: [0, 0]
+    })
+  }).addTo(map);
+}
+
+// Zakończ pomiar
+function finishMeasuring() {
+  map.off('click', onMeasureClick);
+  map.off('dblclick', finishMeasuring);
+  isMeasuring = false;
+}
+
+const MeasureControl = L.Control.extend({
+  onAdd: function () {
+    const btn = L.DomUtil.create('div', 'leaflet-bar measure-btn');
+    btn.innerHTML = '<i class="fa-solid fa-ruler"></i>';
+    btn.title = "Measure distance";
+
+    L.DomEvent.on(btn, 'click', function (e) {
+      L.DomEvent.stopPropagation(e);
+      L.DomEvent.preventDefault(e);
+      if (!isMeasuring) {
+        enableMeasuring();
+      }
+    });
+
+    return btn;
+  },
+  onRemove: function () {}
+});
+
+map.addControl(new MeasureControl({ position: 'topleft' }));
+
+const ClearMeasureControl = L.Control.extend({
+  onAdd: function () {
+    const btn = L.DomUtil.create('div', 'leaflet-bar clear-measure-btn');
+    btn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    btn.title = "Clear measurement";
+
+    L.DomEvent.on(btn, 'click', function (e) {
+      L.DomEvent.stopPropagation(e);
+      L.DomEvent.preventDefault(e);
+	  
+	  if (clearControl) {
+		map.removeControl(clearControl);
+		clearControl = null;
+}
+
+      // Usuń linie, etykiety, punkty
+      if (measureLine) {
+        map.removeLayer(measureLine);
+        measureLine = null;
+      }
+      if (distanceLabel) {
+        map.removeLayer(distanceLabel);
+        distanceLabel = null;
+      }
+      measurePoints = [];
+      totalDistance = 0;
+      isMeasuring = false;
+      map.off('click', onMeasureClick);
+      map.off('dblclick', finishMeasuring);
+    });
+
+    return btn;
+  },
+  onRemove: function () {}
+});
+
+
