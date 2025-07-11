@@ -23,43 +23,59 @@ fetch('data/paths.geojson')
     return response.json();
   })
   .then(data => {
-    const pathsLayer = L.geoJSON(data, {
-      style: {
-        color: '#FF005A',
-        weight: 4
-      },
-      onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties.PathName) {
-          const tooltipContent = `<strong>${feature.properties.PathName}</strong><br>${feature.properties.PathNotes || ''}`;
+    const defaultStyle = {
+      color: '#FF005A',
+      weight: 4
+    };
 
-          layer.bindTooltip(tooltipContent, {
-            sticky: true,
-            direction: 'auto'
-          });
+    const highlightStyle = {
+      color: '#FF3380',
+      weight: 6
+    };
 
-          layer.on('mouseover', function () {
-            layer.setStyle({
-              weight: 6,
-              color: '#FF3380'
-            });
-          });
+    function pulseEffect(layer) {
+      const originalColor = layer.options.color;
+      let count = 0;
+      const maxPulse = 6;
 
-          layer.on('mouseout', function () {
-            layer.setStyle({
-              weight: 4,
-              color: '#FF005A'
-            });
-          });
-
-          layer.on('click', function (e) {
-            layer.setStyle({
-              weight: 4,
-              color: '#FF005A'
-            });
-            
-            e.originalEvent.stopPropagation();
-          });
+      const pulseInterval = setInterval(() => {
+        layer.setStyle({
+          color: count % 2 === 0 ? '#FF66A0' : originalColor,
+          weight: 6
+        });
+        count++;
+        if (count > maxPulse) {
+          clearInterval(pulseInterval);
+          layer.setStyle(defaultStyle);
         }
+      }, 200);
+    }
+
+    L.geoJSON(data, {
+      style: defaultStyle,
+      onEachFeature: function (feature, layer) {
+        const content = feature.properties
+          ? `<strong>${feature.properties.PathName}</strong><br>${feature.properties.PathNotes || ''}`
+          : '';
+
+        layer.bindTooltip('', {
+          sticky: true,
+          direction: 'auto',
+          opacity: 0
+        });
+
+        layer.on('mouseover', function () {
+          layer.setStyle(highlightStyle);
+        });
+
+        layer.on('mouseout', function () {
+          layer.setStyle(defaultStyle);
+        });
+
+        layer.on('click', function () {
+          pulseEffect(layer);
+          layer.bindPopup(content).openPopup();
+        });
       }
     }).addTo(map);
   })
