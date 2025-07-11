@@ -23,7 +23,7 @@ fetch('data/paths.geojson')
     return response.json();
   })
   .then(data => {
-    L.geoJSON(data, {
+    const pathsLayer = L.geoJSON(data, {
       style: {
         color: '#FF005A',
         weight: 4
@@ -31,22 +31,33 @@ fetch('data/paths.geojson')
       onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties.PathName) {
           const tooltipContent = `<strong>${feature.properties.PathName}</strong><br>${feature.properties.PathNotes || ''}`;
+
           layer.bindTooltip(tooltipContent, {
             sticky: true,
             direction: 'auto'
           });
+
           layer.on('mouseover', function () {
             layer.setStyle({
               weight: 6,
               color: '#FF3380'
             });
-            layer.bringToFront();
           });
+
           layer.on('mouseout', function () {
             layer.setStyle({
               weight: 4,
               color: '#FF005A'
             });
+          });
+
+          layer.on('click', function (e) {
+            layer.setStyle({
+              weight: 4,
+              color: '#FF005A'
+            });
+            
+            e.originalEvent.stopPropagation();
           });
         }
       }
