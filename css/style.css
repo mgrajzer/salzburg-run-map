@@ -122,14 +122,13 @@ footer {
 }
 
 .popup-title {
-  font-weight: 700;
+  font-style: bold;
   margin-bottom: 6px;
-  font-size: 15px;
+  font-size: 13px;
   color: #111;
 }
 
 .popup-hours {
-  font-style: italic;
   color: #555;
   margin-bottom: 5px;
   font-size: 13px;
