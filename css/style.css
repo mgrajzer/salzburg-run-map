@@ -105,11 +105,9 @@ footer {
   }
 }
 
-.leaflet-tooltip {
-  white-space: normal !important;
-  max-width: 600px;
-  word-wrap: break-word;
-  line-height: 1.3em;
+.leaflet-interactive:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .modal {
