@@ -15,7 +15,7 @@ var map = L.map('map', {
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
 
 
-fetch('data/paths.json')
+fetch('data/paths.geojson')
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -31,20 +31,17 @@ fetch('data/paths.json')
       onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties.PathName) {
           const tooltipContent = `<strong>${feature.properties.PathName}</strong><br>${feature.properties.PathNotes || ''}`;
-
-
           layer.bindTooltip(tooltipContent, {
-            sticky: true,  
+            sticky: true,
             direction: 'auto'
           });
-		  
           layer.on('mouseover', function () {
             layer.setStyle({
               weight: 6,
               color: '#FF3380'
             });
+            layer.bringToFront();
           });
-
           layer.on('mouseout', function () {
             layer.setStyle({
               weight: 4,
@@ -56,7 +53,7 @@ fetch('data/paths.json')
     }).addTo(map);
   })
   .catch(error => {
-    console.error('Error loading paths.json:', error);
+    console.error('Error loading paths.geojson:', error);
   });
   
 fetch('data/points.json')
