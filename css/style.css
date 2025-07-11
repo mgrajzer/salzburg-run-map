@@ -110,6 +110,16 @@ footer {
   box-shadow: none !important;
 }
 
+.leaflet-popup-content-wrapper {
+  max-height: none !important;
+  overflow-y: visible !important;
+}
+
+.leaflet-popup-content {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
 .modal {
   position: fixed;
   top: 0;
