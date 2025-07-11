@@ -109,35 +109,27 @@ footer {
   box-shadow: none !important;
 }
 
-/* Popup dla ścieżek i punktów - spójny styl */
 .leaflet-popup-custom .custom-popup {
   max-height: 300px;
   overflow-y: auto;
   width: 260px;
-  font-family: Arial, sans-serif;
-  font-size: 13px;         /* nieco mniejszy font */
+  font-size: 14px;
   line-height: 1.4;
-  color: #222;
-  padding: 8px 12px;
 }
 
 .popup-title {
-  font-style: bold;
-  margin-bottom: 6px;
-  font-size: 13px;
-  color: #111;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .popup-hours {
+  font-style: italic;
   color: #555;
   margin-bottom: 5px;
-  font-size: 13px;
 }
 
 .popup-notes {
   white-space: normal;
-  color: #444;
-  font-size: 13px;
 }
 
 .modal {
@@ -223,7 +215,9 @@ footer {
   animation: slideOutRight 0.5s ease forwards;
 }
 
-.reset-view-btn {
+.reset-view-btn,
+.measure-btn,
+.clear-measure-btn {
   background-color: #1F1F1F;
   color: #FF005A;
   width: 40px;
@@ -234,6 +228,16 @@ footer {
   font-size: 16px;
   cursor: pointer;
   border-top: 1px solid #FF005A;
+}
+
+.measure-btn:hover,
+.clear-measure-btn:hover,
+.reset-view-btn:hover {
+  background-color: #2B2B2B;
+}
+
+#reset-view-btn:hover {
+  background-color: #2a2a2a;
 }
 
 .distance-label div {
@@ -247,44 +251,9 @@ footer {
   justify-content: center;
 }
 
-.measure-btn {
-  background-color: #1F1F1F;
-  color: #FF005A;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  cursor: pointer;
-  border-top: 1px solid #FF005A;
-}
-
-.clear-measure-btn {
-  background-color: #1F1F1F;
-  color: #FF005A;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  cursor: pointer;
-  border-top: 1px solid #FF005A;
-}
-
-.clear-measure-btn:hover {
-  background-color: #2B2B2B;
-}
-
-.measure-btn:hover {
-  background-color: #2B2B2B;
-}
-
-.reset-view-btn:hover {
-  background-color: #2B2B2B;
-}
-
-#reset-view-btn:hover {
-  background-color: #2a2a2a;
+/* 🔥 Dodane: aktywny marker po kliknięciu */
+.marker-icon.active-marker {
+  box-shadow: 0 0 0 4px rgba(255, 0, 90, 0.6);
+  border-radius: 50%;
+  transition: box-shadow 0.2s ease;
 }
