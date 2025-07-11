@@ -100,8 +100,14 @@ fetch('data/points.geojson')
         iconAnchor: [14, 28],
         popupAnchor: [0, -30]
       }),
+	  3: L.icon({
+        iconUrl: 'css/images/icon-automat.svg',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -30]
+      }),
       default: L.icon({
-        iconUrl: 'css/images/icon-default.svg',
+        iconUrl: 'css/images/icon.svg',
         iconSize: [28, 28],
         iconAnchor: [14, 28],
         popupAnchor: [0, -30]
@@ -143,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const content = modal.querySelector(".modal-content");
     content.classList.add("slide-out");
 
-    // Poczekaj na koniec animacji, potem ukryj cały modal
     content.addEventListener("animationend", () => {
       modal.style.display = "none";
     }, { once: true });
