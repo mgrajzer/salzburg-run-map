@@ -186,7 +186,6 @@ function formatDistance(meters) {
     : Math.round(meters) + ' m';
 }
 
-// START pomiaru
 let clearControl = null;
 
 function enableMeasuring() {
@@ -194,18 +193,15 @@ function enableMeasuring() {
   measurePoints = [];
   totalDistance = 0;
 
-  // Aktywuj eventy
   map.on('click', onMeasureClick);
   map.on('dblclick', finishMeasuring);
-
-  // Dodaj kosz (jeśli jeszcze nie istnieje)
+	
   if (!clearControl) {
     clearControl = new ClearMeasureControl({ position: 'topleft' });
     map.addControl(clearControl);
   }
 }
 
-// Obsługa pojedynczego kliknięcia
 function onMeasureClick(e) {
   measurePoints.push(e.latlng);
 
@@ -233,7 +229,6 @@ function onMeasureClick(e) {
   }).addTo(map);
 }
 
-// Zakończ pomiar
 function finishMeasuring() {
   map.off('click', onMeasureClick);
   map.off('dblclick', finishMeasuring);
@@ -276,7 +271,6 @@ const ClearMeasureControl = L.Control.extend({
 		clearControl = null;
 }
 
-      // Usuń linie, etykiety, punkty
       if (measureLine) {
         map.removeLayer(measureLine);
         measureLine = null;
