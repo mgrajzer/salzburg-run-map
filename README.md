@@ -1,6 +1,6 @@
 # Salzburg Run Map 0.2
 
-This project is an interactive web map built using the Leaflet library with Jawg Dark map tiles. It displays running paths and points of interest loaded from GeoJSON files, supports measuring distances between points, and includes controls for resetting the map view.
+This project is an interactive web map built using the Leaflet library with Jawg Dark map tiles. It displays running paths and points of interest loaded from GeoJSON files, supports measuring distances between points, and includes controls for resetting the map view. This map was created as part of the course **Geovisualization and Advanced Cartography**, taught by **Dr. Merve Keskin**, during the summer semester of 2025 at **The Paris Lodron University of Salzburg**.
 
 ## Features
 
