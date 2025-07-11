@@ -114,22 +114,10 @@ fetch('data/points.geojson')
       })
     };
 
-    const markers = L.markerClusterGroup({
-  iconCreateFunction: function(cluster) {
-    const count = cluster.getChildCount();
+    // Tworzymy grupę klastrów
+    const markers = L.markerClusterGroup();
 
-    let size = 'small';
-    if (count >= 10 && count < 50) size = 'medium';
-    else if (count >= 50) size = 'large';
-
-    return L.divIcon({
-      html: `<div><span>${count}</span></div>`,
-      className: `marker-cluster marker-cluster-${size}`,
-      iconSize: L.point(40, 40)
-    });
-  }
-});
-
+    // Tworzymy warstwę GeoJSON z punktami
     const geoJsonLayer = L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
         const type = feature.properties.NoteType;
@@ -152,8 +140,10 @@ fetch('data/points.geojson')
       }
     });
 
+    // Dodajemy warstwę GeoJSON do klastra
     markers.addLayer(geoJsonLayer);
 
+    // Dodajemy klastery do mapy
     map.addLayer(markers);
   })
   .catch(error => {
