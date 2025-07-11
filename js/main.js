@@ -118,14 +118,14 @@ fetch('data/points.geojson')
         const props = feature.properties;
 
 		const title = `<div class="popup-title"><strong>${props.Name}</strong></div>`;
-        const hours = props["Opening Hours"]
-          ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props["Opening Hours"]}</div>`
-          : '';
         const notes = props.Notes
           ? `<div class="popup-notes">${props.Notes}</div>`
           : '';
+		  const hours = props.hours
+		? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props.hours}</div>`
+		: '';
 
-        const popupContent = `<div class="custom-popup">${title}${hours}${notes}</div>`;
+        const popupContent = `<div class="custom-popup">${title}${notes}${hours}</div>`;
         layer.bindPopup(popupContent, { className: 'leaflet-popup-custom' });
       }
     }).addTo(map);
