@@ -110,34 +110,27 @@ footer {
   box-shadow: none !important;
 }
 
-.custom-popup-scroll {
-  max-width: 300px;
+.leaflet-popup-custom .custom-popup {
   max-height: 300px;
   overflow-y: auto;
+  width: 260px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.popup-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.popup-hours {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.popup-notes {
   white-space: normal;
-  word-break: break-word;
-  padding-right: 8px;
-}
-
-/* Optional: nicer scrollbar styles for Webkit browsers (Chrome, Edge, Safari) */
-.custom-popup-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-popup-scroll::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 4px;
-}
-
-.custom-popup-scroll::-webkit-scrollbar-thumb {
-  background-color: #c14;
-  border-radius: 4px;
-}
-
-/* Firefox support */
-.custom-popup-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #c14 #f0f0f0;
 }
 
 .modal {

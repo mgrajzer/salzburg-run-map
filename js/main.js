@@ -83,11 +83,10 @@ fetch('data/paths.geojson')
     console.error('Error loading paths.geojson:', error);
   });
   
-fetch('data/points.json')
+fetch('data/points.geojson')
   .then(response => response.json())
   .then(data => {
 
-    // Różne ikony dla różnych typów
     const icons = {
       1: L.icon({
         iconUrl: 'css/images/icon-mcdonald.svg',
@@ -111,14 +110,14 @@ fetch('data/points.json')
 
     L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
-        const type = feature.properties["Note Type"];
+        const type = feature.properties.NoteType;
         const icon = icons[type] || icons.default;
         return L.marker(latlng, { icon: icon });
       },
       onEachFeature: function (feature, layer) {
         const props = feature.properties;
 
-        const title = `<div class="popup-title">${props.Name}</div>`;
+		const title = `<div class="popup-title"><strong>${props.Name}</strong></div>`;
         const hours = props["Opening Hours"]
           ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props["Opening Hours"]}</div>`
           : '';
