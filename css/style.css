@@ -109,13 +109,12 @@ footer {
   box-shadow: none !important;
 }
 
-/* Popup dla ścieżek i punktów - spójny styl */
 .leaflet-popup-custom .custom-popup {
   max-height: 300px;
   overflow-y: auto;
   width: 260px;
   font-family: Arial, sans-serif;
-  font-size: 13px;         /* nieco mniejszy font */
+  font-size: 13px;   
   line-height: 1.4;
   color: #222;
   padding: 8px 12px;
