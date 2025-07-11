@@ -14,7 +14,8 @@ var map = L.map('map', {
 
 L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
 
-fetch('data/run.json')
+
+fetch('data/paths.json')
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -28,14 +29,34 @@ fetch('data/run.json')
         weight: 4
       },
       onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties.name) {
-          layer.bindPopup(feature.properties.name);
+        if (feature.properties && feature.properties.PathName) {
+          const tooltipContent = `<strong>${feature.properties.PathName}</strong><br>${feature.properties.PathNotes || ''}`;
+
+
+          layer.bindTooltip(tooltipContent, {
+            sticky: true,  
+            direction: 'auto'
+          });
+		  
+          layer.on('mouseover', function () {
+            layer.setStyle({
+              weight: 6,
+              color: '#FF3380'
+            });
+          });
+
+          layer.on('mouseout', function () {
+            layer.setStyle({
+              weight: 4,
+              color: '#FF005A'
+            });
+          });
         }
       }
     }).addTo(map);
   })
   .catch(error => {
-    console.error('Error loading run.json:', error);
+    console.error('Error loading paths.json:', error);
   });
   
 fetch('data/points.json')
