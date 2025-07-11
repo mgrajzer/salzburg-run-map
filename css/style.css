@@ -111,13 +111,14 @@ footer {
 }
 
 .leaflet-popup-content-wrapper {
+  max-width: 300px !important;
   max-height: none !important;
-  overflow-y: visible !important;
 }
 
 .leaflet-popup-content {
   white-space: normal !important;
-  word-wrap: break-word !important;
+  overflow: visible !important;
+  word-break: break-word !important;
 }
 
 .modal {
