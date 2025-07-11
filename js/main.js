@@ -86,6 +86,7 @@ fetch('data/paths.geojson')
 fetch('data/points.geojson')
   .then(response => response.json())
   .then(data => {
+
     const icons = {
       1: L.icon({
         iconUrl: 'css/images/icon-mcdonald.svg',
@@ -113,21 +114,28 @@ fetch('data/points.geojson')
       })
     };
 
-    let activeMarker = null;
+    const markers = L.markerClusterGroup({
+  iconCreateFunction: function(cluster) {
+    const count = cluster.getChildCount();
 
-    const markers = L.markerClusterGroup(); // 👈 nowa grupa klastrów
+    let size = 'small';
+    if (count >= 10 && count < 50) size = 'medium';
+    else if (count >= 50) size = 'large';
+
+    return L.divIcon({
+      html: `<div><span>${count}</span></div>`,
+      className: `marker-cluster marker-cluster-${size}`,
+      iconSize: L.point(40, 40)
+    });
+  }
+});
 
     const geoJsonLayer = L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
         const type = feature.properties.NoteType;
-        const iconClass = `marker-icon marker-type-${type}`;
-        return L.marker(latlng, {
-          icon: L.divIcon({
-            className: iconClass
-          })
-        });
+        const icon = icons[type] || icons.default;
+        return L.marker(latlng, { icon: icon });
       },
-
       onEachFeature: function (feature, layer) {
         const props = feature.properties;
 
@@ -135,28 +143,21 @@ fetch('data/points.geojson')
         const notes = props.Notes
           ? `<div class="popup-notes">${props.Notes}</div>`
           : '';
-        const hours = props["Opening Hours"] || props.hours
-          ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props["Opening Hours"] || props.hours}</div>`
+        const hours = props.hours
+          ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props.hours}</div>`
           : '';
 
         const popupContent = `<div class="custom-popup">${title}${hours}${notes}</div>`;
         layer.bindPopup(popupContent, { className: 'leaflet-popup-custom' });
-
-        layer.on('click', function () {
-          if (activeMarker && activeMarker !== layer) {
-            activeMarker.getElement()?.classList.remove('active-marker');
-          }
-          layer.getElement()?.classList.add('active-marker');
-          activeMarker = layer;
-        });
       }
     });
 
-    markers.addLayer(geoJsonLayer);   // 👈 dodajemy GeoJSON do grupy
-    map.addLayer(markers);            // 👈 dodajemy grupę do mapy
+    markers.addLayer(geoJsonLayer);
+
+    map.addLayer(markers);
   })
   .catch(error => {
-    console.error('Error loading points.geojson:', error);
+    console.error('Error loading points.json:', error);
   });
 
 
