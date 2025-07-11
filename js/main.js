@@ -100,7 +100,7 @@ fetch('data/points.geojson')
         iconAnchor: [14, 28],
         popupAnchor: [0, -30]
       }),
-      3: L.icon({
+	  3: L.icon({
         iconUrl: 'css/images/icon-automat.svg',
         iconSize: [28, 28],
         iconAnchor: [14, 28],
@@ -114,11 +114,7 @@ fetch('data/points.geojson')
       })
     };
 
-    // Tworzymy grupę klastrów
-    const markers = L.markerClusterGroup();
-
-    // Tworzymy warstwę GeoJSON z punktami
-    const geoJsonLayer = L.geoJSON(data, {
+    L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
         const type = feature.properties.NoteType;
         const icon = icons[type] || icons.default;
@@ -127,29 +123,22 @@ fetch('data/points.geojson')
       onEachFeature: function (feature, layer) {
         const props = feature.properties;
 
-        const title = `<div class="popup-title"><strong>${props.Name}</strong></div>`;
+		const title = `<div class="popup-title"><strong>${props.Name}</strong></div>`;
         const notes = props.Notes
           ? `<div class="popup-notes">${props.Notes}</div>`
           : '';
-        const hours = props.hours
-          ? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props.hours}</div>`
-          : '';
+		  const hours = props.hours
+		? `<div class="popup-hours"><i class="fa-regular fa-clock"></i> ${props.hours}</div>`
+		: '';
 
         const popupContent = `<div class="custom-popup">${title}${hours}${notes}</div>`;
         layer.bindPopup(popupContent, { className: 'leaflet-popup-custom' });
       }
-    });
-
-    // Dodajemy warstwę GeoJSON do klastra
-    markers.addLayer(geoJsonLayer);
-
-    // Dodajemy klastery do mapy
-    map.addLayer(markers);
+    }).addTo(map);
   })
   .catch(error => {
     console.error('Error loading points.json:', error);
   });
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
